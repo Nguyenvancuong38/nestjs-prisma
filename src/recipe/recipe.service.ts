@@ -1,5 +1,5 @@
 // src/recipes/recipes.service.ts
-import { Body, Injectable, Post } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateRecipeDto } from './dto/create-recipe.dto';
 import { UpdateRecipeDto } from './dto/update-recipe.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
