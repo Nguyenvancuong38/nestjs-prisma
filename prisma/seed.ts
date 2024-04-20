@@ -5,30 +5,30 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 async function main() {
-  // create two dummy recipes
-  const recipe1 = await prisma.recipe.upsert({
-    where: { title: 'Spaghetti Bolognese' },
+  // create two dummy user
+  const user1 = await prisma.user.upsert({
+    where: { code: '9120111' },
     update: {},
     create: {
-      title: 'Spaghetti Bolognese',
-      description: 'A classic Italian dish',
-      ingredients: 'Spaghetti, minced beef, tomato sauce, onions, garlic, olive oil, salt, pepper',
-      instructions: '1. Cook the spaghetti. 2. Fry the minced beef. 3.Add the tomato sauce to the beef. 4. Serve the spaghetti with the sauce.'
+      code: '9120111',
+      userName: 'Ruan wen A',
+      email: 'a@gmail.com',
+      password: '123456'
     }
   });
 
-  const recipe2 = await prisma.recipe.upsert({
-    where: { title: 'Chicken Curry' },
+  const user2 = await prisma.user.upsert({
+    where: { code: '9120978' },
     update: {},
     create: {
-      title: 'Chicken Curry',
-      description: 'A spicy Indian dish',
-      ingredients: 'Chicken, curry powder, onions, garlic, coconut milk, olive oil, salt, pepper',
-      instructions: '1. Fry the chicken. 2. Add the curry powder to the chicken. 3. Add the coconut milk. 4. Serve the curry with rice.'
+      code: '9120978',
+      userName: 'Ruan wen B',
+      email: 'b@gmail.com',
+      password: '123456'
     }
   });
 
-  console.log({ recipe1, recipe2 });
+  console.log({ user1, user2 });
 }
 
 // execute the main function

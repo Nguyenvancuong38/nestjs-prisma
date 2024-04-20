@@ -4,8 +4,9 @@ services:
     image: postgres:13.5
     restart: always
     environment:
-      - POSTGRES_USER=recipe
-      - POSTGRES_PASSWORD=RecipePassword
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DATABASE=mydb
     volumes:
       - postgres:/var/lib/postgresql/data
     ports:
