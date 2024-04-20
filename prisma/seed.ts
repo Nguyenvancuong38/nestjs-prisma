@@ -13,7 +13,8 @@ async function main() {
       code: '9120111',
       userName: 'Ruan wen A',
       email: 'a@gmail.com',
-      password: '123456'
+      password: '123456',
+      role: "admin"
     }
   });
 
@@ -24,7 +25,8 @@ async function main() {
       code: '9120978',
       userName: 'Ruan wen B',
       email: 'b@gmail.com',
-      password: '123456'
+      password: '123456',
+      role: "user"
     }
   });
 
