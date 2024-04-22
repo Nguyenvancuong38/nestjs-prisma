@@ -2,6 +2,8 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { Permission } from 'src/helpers/checkPermission.helper';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
@@ -13,6 +15,8 @@ export class UsersService {
       where: {code}
     })
     if (userExit) throw new BadRequestException("User are Ready");
+    createUserDto.password = await bcrypt.hash(createUserDto.password, process.env.SALTORROUNDS);   
+
     const user = await this.prisma.user.create({
       data: createUserDto
     });
@@ -44,8 +48,11 @@ export class UsersService {
     };
   }
 
-  async update(code: string, updateUserDto: UpdateUserDto) {
+  async update(code: string, updateUserDto: UpdateUserDto, currentUser) {
     this.findByCode(code);
+    Permission.check(code, currentUser);
+    updateUserDto.password = await bcrypt.hash(updateUserDto.password, process.env.SALTORROUNDS); 
+    
     const user = await this.prisma.user.update({
       where: {code},
       data: updateUserDto

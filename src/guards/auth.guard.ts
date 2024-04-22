@@ -1,6 +1,8 @@
 import {
+  BadRequestException,
     CanActivate,
     ExecutionContext,
+    ForbiddenException,
     Injectable,
     UnauthorizedException,
   } from '@nestjs/common';
@@ -30,9 +32,12 @@ import { UsersService } from 'src/users/users.service';
         );
         
         const userExit = await this.usersService.findByCode(userPayload.code);
-        if (!userExit.status) throw new UnauthorizedException();
+        if (!userExit.status) throw new BadRequestException('User not belong to token, please try again');
+
+        //Assign user to request object
+        request.currentUser = userExit.data;
       } catch {
-        throw new UnauthorizedException();
+        throw new ForbiddenException('Invalid token or expired');
       }
       return true;
     }
