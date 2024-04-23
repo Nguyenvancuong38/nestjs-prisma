@@ -15,7 +15,7 @@ export class AuthService {
         const user = await this.usersService.findByCode(loginDto.code);
         const isMatch = await bcrypt.compare(loginDto.password, user.data.password);
         if (!isMatch) throw new UnauthorizedException();
-        const payload = { code: user.data.code, username: user.data.userName, email: user.data.email };
+        const payload = { code: user.data.code, username: user.data.name, email: user.data.email };
         return {
             status: 200,
             message: "Login successfully",

@@ -1,46 +1,83 @@
-// prisma/seed.ts
 import { PrismaClient } from '@prisma/client';
-import * as bcrypt from "bcrypt";
+import * as bcrypt from 'bcrypt';
 
-// initialize Prisma Client
 const prisma = new PrismaClient();
 
 async function main() {
-  // create two dummy user
-  const user1 = await prisma.user.upsert({
-    where: { code: '9120111' },
-    update: {},
-    create: {
-      code: '9120111',
-      userName: 'Ruan wen A',
-      email: 'a@gmail.com',
-      password: await bcrypt.hash("9120111", process.env.SALTORROUNDS),
-      role: "admin"
-    }
+  // Tạo department
+  await prisma.department.create({
+    data: {
+      name: 'TE',
+      description: 'Responsible for managing TE infrastructure',
+      user: {
+        create: {
+          name: 'John Doe',
+          email: 'john.doe@example.com',
+          code: '9120567',
+          password: await bcrypt.hash("9120567", 10),
+          role: 'user', // or 'user' depending on your requirement
+          updateAt: new Date(),
+        },
+      },
+    },
   });
 
-  const user2 = await prisma.user.upsert({
-    where: { code: '9120978' },
-    update: {},
-    create: {
-      code: '9120978',
-      userName: 'Ruan wen B',
-      email: 'b@gmail.com',
-      password: await bcrypt.hash("9120978", process.env.SALTORROUNDS),
-      role: "user"
-    }
+  // Tạo product
+  await prisma.product.create({
+    data: {
+      name: 'HDT565',
+      updateAt: new Date(),
+    },
   });
 
-  console.log({ user1, user2 });
+  // Tạo user, productWithUsers, request và requestDetail
+  const user = await prisma.user.create({
+    data: {
+      name: 'cuong',
+      email: 'alice@example.com',
+      code: '91205250',
+      password: await bcrypt.hash("91205250", 10),
+      role: 'admin',
+      updateAt: new Date(),
+      department: {
+        connect: { id: 4 }, // kết nối với department có id là 1
+      },
+      products: {
+        create: {
+          product: {
+            connect: { id: 3 }, // kết nối với product có id là 1
+          },
+        },
+      },
+      request: {
+        create: {
+          title: 'Request title',
+          updateAt: new Date(),
+          product: {
+            connect: { id: 3 }
+          },
+          requestDetail: {
+            create: {
+              title: 'Request detail title',
+              content: 'Request detail content',
+              toEmail: 'recipient@example.com',
+              isSendEMail: false,
+              updateAt: new Date(),
+            },
+          },
+        },
+      },
+    },
+  });
+
+  console.log('Seed data inserted successfully');
 }
 
-// execute the main function
 main()
-  .catch(e => {
+  .catch((e) => {
     console.error(e);
     process.exit(1);
   })
   .finally(async () => {
-    // close Prisma Client at the end
     await prisma.$disconnect();
   });

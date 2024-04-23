@@ -19,10 +19,69 @@ enum Role {
 }
 
 model User {
-  id           Int      @id @default(autoincrement())
-  userName     String   @unique
-  email        String   @unique
-  code         String   @unique
-  password     String  
-  role         Role     @default(user)
+  id             Int                @id @default(autoincrement())
+  name           String
+  email          String             @unique
+  code           String             @unique
+  password       String  
+  role           Role               @default(user)
+  products       ProductWithUsers[]
+  request        Request[]
+  department     Department         @relation(fields: [departmentId], references: [id])
+  departmentId   Int
+  createAt       DateTime           @default(now())
+  updateAt       DateTime
+}
+
+model Department {
+  id            Int       @id @default(autoincrement())
+  name          String    @unique
+  description   String?
+  user          User[]
+}
+
+model Product {
+  id              Int                 @id @default(autoincrement())
+  name            String              @unique
+  users           ProductWithUsers[]
+  requets         Request[]
+  createAt        DateTime            @default(now())
+  updateAt        DateTime
+}
+
+model ProductWithUsers {
+  user        User      @relation(fields: [userId], references: [id])
+  userId      Int 
+  product     Product   @relation(fields: [productId], references: [id])
+  productId   Int 
+  assignedAt  DateTime  @default(now())
+
+  @@id([userId, productId])
+}
+
+model Request {
+  id              Int               @id @default(autoincrement())
+  title           String
+  createAt        DateTime          @default(now())
+  updateAt        DateTime          
+  author          User              @relation(fields: [authorId], references: [id])
+  authorId        Int               
+  product         Product           @relation(fields: [productId], references: [id])
+  productId       Int
+  requestDetail   RequestDetail[]
+}
+
+model RequestDetail {
+  id          Int       @id @default(autoincrement())
+  title       String
+  content     String
+  image       String?
+  file        String?
+  toEmail     String
+  ccEmail     String?
+  request     Request   @relation(fields: [requestId], references: [id])
+  requestId   Int
+  createAt    DateTime  @default(now())
+  updateAt    DateTime
+  isSendEMail Boolean
 }
