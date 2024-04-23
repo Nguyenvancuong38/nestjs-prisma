@@ -15,7 +15,7 @@ export class UsersService {
       where: {code}
     })
     if (userExit) throw new BadRequestException("User are Ready");
-    createUserDto.password = await bcrypt.hash(createUserDto.password, process.env.SALTORROUNDS);   
+    createUserDto.password = await bcrypt.hash(createUserDto.password, 10); 
 
     const user = await this.prisma.user.create({
       data: createUserDto
@@ -51,7 +51,7 @@ export class UsersService {
   async update(code: string, updateUserDto: UpdateUserDto, currentUser) {
     this.findByCode(code);
     Permission.check(code, currentUser);
-    updateUserDto.password = await bcrypt.hash(updateUserDto.password, process.env.SALTORROUNDS); 
+    updateUserDto.password = await bcrypt.hash(updateUserDto.password, 10); 
     
     const user = await this.prisma.user.update({
       where: {code},
