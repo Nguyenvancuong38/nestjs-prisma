@@ -5,7 +5,7 @@ import { UpdateDepartmentDto } from './dto/update-department.dto';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { RoleGuard } from 'src/guards/role.guard';
 
-@Controller('v1/departments')
+@Controller('v1/department')
 export class DepartmentController {
   constructor(private readonly departmentService: DepartmentService) {}
 
