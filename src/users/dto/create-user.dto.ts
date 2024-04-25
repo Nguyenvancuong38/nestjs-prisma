@@ -1,4 +1,4 @@
-import { IsDate, IsEmail, IsEnum, IsNotEmpty, IsString } from "class-validator"
+import { IsArray, IsDate, IsEmail, IsEnum, IsNotEmpty, IsString } from "class-validator"
 import { Role } from "src/enums/role.enum"
 
 export class CreateUserDto {
@@ -29,4 +29,7 @@ export class CreateUserDto {
 
     @IsDate()
     updateAt: Date
+
+    @IsArray()
+    productIds: number[]
 }

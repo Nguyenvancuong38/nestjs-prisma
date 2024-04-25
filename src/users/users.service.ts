@@ -10,16 +10,37 @@ export class UsersService {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(createUserDto: CreateUserDto) {
-    const { code } = createUserDto;
+    const { code, name, email, password, role, departmentId, updateAt, productIds } = createUserDto;
     const userExit = await this.prisma.user.findUnique({
       where: {code}
     })
     if (userExit) throw new BadRequestException("User are Ready");
-    createUserDto.password = await bcrypt.hash(createUserDto.password, 10); 
-
+    const userGetByEmail = await this.prisma.user.findUnique({
+      where: {email}
+    })
+    if (userGetByEmail) throw new BadRequestException("Email are Ready");
+    const passwordHash = await bcrypt.hash(password, 10); 
     const user = await this.prisma.user.create({
-      data: createUserDto
+      data: {
+        code: code,
+        name: name,
+        email: email,
+        role: role,
+        departmentId: departmentId,
+        updateAt: updateAt,
+        password: passwordHash,
+        products: {
+          create: productIds.map(item => (
+            {
+              product: {
+                connect: {id: item}
+              }
+            }
+          ))
+        }
+      }
     });
+
     return {
       status: 201,
       message: "Create User Successfully.",
@@ -28,7 +49,11 @@ export class UsersService {
   }
 
   async findAll() {
-     const users = await this.prisma.user.findMany();
+     const users = await this.prisma.user.findMany({
+      include: {
+        department: true
+      }
+     });
      return {
       status: 200,
       message: "Find all user Successfully.",
@@ -38,7 +63,17 @@ export class UsersService {
 
   async findByCode(code: string) {
     const user = await this.prisma.user.findUnique({
-      where: {code}
+      where: {
+        code
+      },
+      include: {
+        department: true,
+        products: {
+          include: {
+            product: true
+          }
+        }
+      }
     });
     if (!user) throw new BadRequestException('User not exits');
     return {
@@ -48,15 +83,60 @@ export class UsersService {
     };
   }
 
-  async update(code: string, updateUserDto: UpdateUserDto, currentUser) {
-    this.findByCode(code);
-    Permission.check(code, currentUser);
-    updateUserDto.password = await bcrypt.hash(updateUserDto.password, 10); 
+  async findById(id: number) {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id
+      },
+      include: {
+        department: true,
+        products: {
+          include: {
+            product: true
+          }
+        }
+      }
+    });
+    if (!user) throw new BadRequestException('User not exits');
+    return {
+      status: 200,
+      message: "Find user by code Successfully.",
+      data: user
+    };
+  }
+
+  async update(id: number, updateUserDto: UpdateUserDto, currentUser) {
+    this.findById(id);
+    Permission.check(id, currentUser);
+    const { code, name, email, password, role, departmentId, updateAt, productIds } = updateUserDto;
+    const passwordHash = await bcrypt.hash(password, 10); 
+
+    await this.prisma.productWithUsers.deleteMany({
+      where: {userId: id}
+    })
     
     const user = await this.prisma.user.update({
-      where: {code},
-      data: updateUserDto
+      where: {id},
+      data: {
+        code: code,
+        name: name,
+        email: email,
+        role: role,
+        departmentId: departmentId,
+        updateAt: updateAt,
+        password: passwordHash,
+        products: {
+          create: productIds.map(item => (
+            {
+              product: {
+                connect: {id: item}
+              }
+            }
+          ))
+        }
+      }
     })
+
     return {
       status: 201,
       message: "Update user successfully",
@@ -64,10 +144,13 @@ export class UsersService {
     };
   }
 
-  async remove(code: string) {
-    this.findByCode(code);
+  async remove(id: number) {
+    this.findById(id);
+    await this.prisma.productWithUsers.deleteMany({
+      where: {userId: id}
+    })
     const user = await this.prisma.user.delete({
-      where: {code}
+      where: {id},
     }) 
     return {
       status: 204,

@@ -25,17 +25,17 @@ export class UsersController {
     return this.usersService.findAll();
   }
 
-  @Patch('/:code')
+  @Patch('/:id')
   @UseGuards(AuthGuard)
-  update(@Param('code') code: string, @Body() updateUserDto: UpdateUserDto, @CurrentUser() currentUser: User) {
-    return this.usersService.update(code, updateUserDto, currentUser);
+  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto, @CurrentUser() currentUser: User) {
+    return this.usersService.update(+id, updateUserDto, currentUser);
   }
 
-  @Delete('/:code')
+  @Delete('/:id')
   @UseGuards(new RoleGuard(['admin']))
   @UseGuards(AuthGuard)
-  remove(@Param('code') code: string) {
-    return this.usersService.remove(code);
+  remove(@Param('id') id: string) {
+    return this.usersService.remove(+id);
   }
 
   @Get('/current-user/')
@@ -44,9 +44,9 @@ export class UsersController {
     return currentUser;
   }
 
-  @Get('/:code')
+  @Get('/:id')
   @UseGuards(AuthGuard)
-  findOne(@Param('code') code: string) {
-    return this.usersService.findByCode(code);
+  findOne(@Param('id') id: string) {
+    return this.usersService.findById(+id);
   }
 }

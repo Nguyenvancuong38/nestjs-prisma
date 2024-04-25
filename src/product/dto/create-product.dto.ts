@@ -1,4 +1,4 @@
-import { IsDate, IsNotEmpty } from "class-validator";
+import { IsArray, IsDate, IsNotEmpty } from "class-validator";
 
 export class CreateProductDto {
     @IsNotEmpty()
@@ -6,4 +6,7 @@ export class CreateProductDto {
 
     @IsDate()
     updateAt: Date
+
+    @IsArray()
+    userIds: number[]
 }
