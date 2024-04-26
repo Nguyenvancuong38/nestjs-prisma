@@ -91,7 +91,7 @@ export class RequestService {
         data: request
       }
     } catch (error) {
-      throw new InternalServerErrorException('Internal server error')
+      throw new InternalServerErrorException()
     }
   }
 
@@ -106,7 +106,7 @@ export class RequestService {
         data: requests
       }
     } catch (error) {
-      throw new InternalServerErrorException('Internal server error')
+      throw new InternalServerErrorException()
     }
   }
 }

@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -145,17 +145,18 @@ export class UsersService {
   }
 
   async remove(id: number) {
-    this.findById(id);
-    await this.prisma.productWithUsers.deleteMany({
-      where: {userId: id}
-    })
-    const user = await this.prisma.user.delete({
-      where: {id},
-    }) 
-    return {
-      status: 204,
-      message: "Delete user successfully",
-      data: user
+    try {
+      this.findById(id);
+      const user = await this.prisma.user.delete({
+        where: {id},
+      }) 
+      return {
+        status: 204,
+        message: "Delete user successfully",
+        data: user
+      }
+    } catch (error) {
+      throw new InternalServerErrorException()
     }
   }
 }

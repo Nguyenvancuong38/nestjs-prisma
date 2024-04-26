@@ -7,9 +7,10 @@ import { AuthModule } from './auth/auth.module';
 import { DepartmentModule } from './department/department.module';
 import { ProductModule } from './product/product.module';
 import { RequestModule } from './request/request.module';
+import { RequestDetailsModule } from './request-details/request-details.module';
 
 @Module({
-  imports: [PrismaModule, UsersModule, AuthModule, DepartmentModule, ProductModule, RequestModule],
+  imports: [PrismaModule, UsersModule, AuthModule, DepartmentModule, ProductModule, RequestModule, RequestDetailsModule],
   controllers: [AppController],
   providers: [AppService],
 })

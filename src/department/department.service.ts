@@ -26,7 +26,7 @@ export class DepartmentService {
         data: department
       }
     } catch (error) {
-      throw new InternalServerErrorException('Internal server error')
+      throw new InternalServerErrorException()
     }
   }
 
@@ -39,7 +39,7 @@ export class DepartmentService {
         data: departments
       }
     } catch (error) {
-      throw new InternalServerErrorException('Internal server error')
+      throw new InternalServerErrorException()
     }
   }
 
@@ -54,7 +54,7 @@ export class DepartmentService {
         data: department
       };
     } catch (error) {
-      throw new InternalServerErrorException('Internal server error')
+      throw new InternalServerErrorException()
     }
   }
 
@@ -77,7 +77,7 @@ export class DepartmentService {
         data: department
       }
     } catch (error) {
-      throw new InternalServerErrorException('Internal server error')
+      throw new InternalServerErrorException()
     }
   }
 
@@ -99,7 +99,7 @@ export class DepartmentService {
         data: department
       };
     } catch (error) {
-      throw new InternalServerErrorException('Internal server error')
+      throw new InternalServerErrorException()
     }
   }
 }

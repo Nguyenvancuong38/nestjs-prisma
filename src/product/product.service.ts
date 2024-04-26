@@ -38,7 +38,7 @@ export class ProductService {
         data: product
       };
     } catch (error) {
-      throw new InternalServerErrorException('Internal server error')
+      throw new InternalServerErrorException()
     }
   }
 
@@ -51,7 +51,7 @@ export class ProductService {
         data: products
       };
     } catch (error) {
-      throw new InternalServerErrorException('Internal server error')
+      throw new InternalServerErrorException()
     }
   }
 
@@ -74,7 +74,7 @@ export class ProductService {
         data: product
       };
     } catch (error) {
-      throw new InternalServerErrorException('Internal server error')
+      throw new InternalServerErrorException()
     }
   }
 
@@ -113,7 +113,7 @@ export class ProductService {
         data: product 
       };
     } catch (error) {
-      throw new InternalServerErrorException('Internal server error')
+      throw new InternalServerErrorException()
     }
   }
 
@@ -128,10 +128,6 @@ export class ProductService {
         message: "Product not found"
       }
 
-      await this.prisma.productWithUsers.deleteMany({
-        where: {productId: id}
-      })
-  
       const product = await this.prisma.product.delete({
         where: {id}
       })
@@ -142,7 +138,7 @@ export class ProductService {
         data: product
       };
     } catch (error) {
-      throw new InternalServerErrorException('Internal server error')
+      throw new InternalServerErrorException()
     }
   }
 }
