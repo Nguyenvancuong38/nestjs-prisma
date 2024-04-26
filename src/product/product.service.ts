@@ -119,7 +119,7 @@ export class ProductService {
 
   async remove(id: number) {
     try {
-      const productExit = this.prisma.product.findUnique({
+      const productExit = await this.prisma.product.findUnique({
         where: {id}
       })
   
@@ -127,8 +127,12 @@ export class ProductService {
         status: 401,
         message: "Product not found"
       }
+
+      await this.prisma.productWithUsers.deleteMany({
+        where: {productId: id}
+      })
   
-      const product = this.prisma.product.delete({
+      const product = await this.prisma.product.delete({
         where: {id}
       })
   

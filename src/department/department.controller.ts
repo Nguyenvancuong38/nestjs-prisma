@@ -27,11 +27,13 @@ export class DepartmentController {
   }
 
   @Patch('/:id')
+  @UseGuards(AuthGuard)
   update(@Param('id') id: string, @Body() updateDepartmentDto: UpdateDepartmentDto) {
     return this.departmentService.update(+id, updateDepartmentDto);
   }
 
   @Delete('/:id')
+  @UseGuards(AuthGuard)
   remove(@Param('id') id: string) {
     return this.departmentService.remove(+id);
   }

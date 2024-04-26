@@ -61,7 +61,8 @@ model ProductWithUsers {
 
 model Request {
   id              Int               @id @default(autoincrement())
-  title           String
+  title           String            @unique
+  description     String?
   createAt        DateTime          @default(now())
   updateAt        DateTime          
   author          User              @relation(fields: [authorId], references: [id])

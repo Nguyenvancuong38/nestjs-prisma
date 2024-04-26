@@ -27,11 +27,13 @@ export class ProductController {
   }
 
   @Patch('/:id')
+  @UseGuards(AuthGuard)
   update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
     return this.productService.update(+id, updateProductDto);
   }
 
   @Delete('/:id')
+  @UseGuards(AuthGuard)
   remove(@Param('id') id: string) {
     return this.productService.remove(+id);
   }
