@@ -9,7 +9,7 @@ async function main() {
     data: {
       name: 'TE',
       description: 'Department test product',
-      user: {
+      users: {
         create: {
           name: 'John Doe',
           email: 'john.doe@example.com',
@@ -17,18 +17,35 @@ async function main() {
           password: await bcrypt.hash("91205250", 10),
           role: 'admin', // or 'user' depending on your requirement
           updateAt: new Date(),
+          requests: {
+            create: {
+              title: 'Create Product first',
+              description: 'Request create room discuss',
+              updateAt: new Date(),
+              product: {
+                create: {
+                  name: 'HDT565',
+                  updateAt: new Date()
+                }
+              },
+            }
+          }
         },
       },
     },
   });
 
-  // Tạo product
-  await prisma.product.create({
+  await prisma.requestDetail.create({
     data: {
-      name: 'HDT565',
+      title: 'Create request the detail first',
+      content: 'Description create the request detail first',
+      toEmail: 'a@gmail.com',
+      requestId: 1,
+      authorId: 1,
       updateAt: new Date(),
-    },
-  });
+      isSendEMail: true
+    }
+  })
 
   console.log('Seed data inserted successfully');
 }

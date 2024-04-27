@@ -1,36 +1,90 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { CreateRequestDetailDto } from './dto/create-request-detail.dto';
 import { UpdateRequestDetailDto } from './dto/update-request-detail.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { Permission } from 'src/helpers/checkPermission.helper';
 
 @Injectable()
 export class RequestDetailsService {
   constructor(private readonly prisma: PrismaService) {}
   async create(createRequestDetailDto: CreateRequestDetailDto) {
-    const requestDetail = await this.prisma.requestDetail.create({
-      data: createRequestDetailDto
-    })
-    return {
-      status: 200,
-      message: 'Create request detail successfully',
-      data: requestDetail
-    };
+    try {
+      const requestDetail = await this.prisma.requestDetail.create({
+        data: createRequestDetailDto
+      })
+      return {
+        status: 201,
+        message: 'Create request detail successfully',
+        data: requestDetail
+      };
+    } catch (error) {
+      throw new InternalServerErrorException()
+    }
   }
 
-  findAll() {
-    return `This action returns all requestDetails`;
+  async findAll() {
+    try {
+      const requestDetails = await this.prisma.requestDetail.findMany()
+      return {
+        status: 200,
+        message: 'Get all request detail successfully',
+        data: requestDetails
+      };
+    } catch (error) {
+      throw new InternalServerErrorException()
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} requestDetail`;
+  async findOne(id: number) {
+    try {
+      const requestDetail = await this.prisma.requestDetail.findUnique({
+        where: {id}
+      })
+      return {
+        status: 200,
+        message: 'Get request detail successfully',
+        data: requestDetail
+      };
+    } catch (error) {
+      throw new InternalServerErrorException()
+    }
   }
 
-  update(id: number, updateRequestDetailDto: UpdateRequestDetailDto) {
-    return `This action updates a #${id} requestDetail`;
+  async update(id: number, updateRequestDetailDto: UpdateRequestDetailDto) {
+    try {
+      const requestDetailExit = await this.prisma.requestDetail.findUnique({
+        where: {id}
+      })
+      if (!requestDetailExit) throw new BadRequestException('Request detail not exit')
+      const requestDetail = await this.prisma.requestDetail.update({
+        where: {id},
+        data: updateRequestDetailDto
+      })
+      return {
+        status: 201,
+        message: 'Update request detail successfully',
+        data: requestDetail
+      };
+    } catch (error) {
+      throw new InternalServerErrorException()
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} requestDetail`;
+  async remove(id: number) {
+    try {
+      const requestDetailExit = await this.prisma.requestDetail.findUnique({
+        where: {id}
+      })
+      if (!requestDetailExit) throw new BadRequestException('Request detail not exit')
+      const requestDetail = await this.prisma.requestDetail.delete({
+        where: {id}
+      })
+      return {
+        status: 204,
+        message: 'Delete request detail successfully',
+        data: requestDetail
+      };
+    } catch (error) {
+      throw new InternalServerErrorException()
+    }
   }
 }

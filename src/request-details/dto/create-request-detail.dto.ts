@@ -26,7 +26,7 @@ export class CreateRequestDetailDto {
     updateAt: Date
 
     @IsNotEmpty()
-    isSendEmail: boolean
+    isSendEMail: boolean
 
     @IsNotEmpty()
     authorId: number
