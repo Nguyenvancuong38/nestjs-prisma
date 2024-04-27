@@ -30,6 +30,8 @@ model User {
   requestDetails RequestDetail[]
   department     Department         @relation(fields: [departmentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   departmentId   Int
+  topics         Topic[]
+  toppicSubs     TopicSub[]
   createAt       DateTime           @default(now())
   updateAt       DateTime
 }
@@ -46,6 +48,7 @@ model Product {
   name            String              @unique
   users           ProductWithUsers[]
   requets         Request[]
+  topics          Topic[]
   createAt        DateTime            @default(now())
   updateAt        DateTime
 }
@@ -63,14 +66,14 @@ model ProductWithUsers {
 model Request {
   id              Int               @id @default(autoincrement())
   title           String            @unique
-  description     String?
-  createAt        DateTime          @default(now())
-  updateAt        DateTime          
-  author          User              @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  authorId        Int               
+  description     String?      
+  author          User?             @relation(fields: [authorId], references: [id])
+  authorId        Int?               
   product         Product           @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   productId       Int
   requestDetails  RequestDetail[]
+  createAt        DateTime          @default(now())
+  updateAt        DateTime    
 }
 
 model RequestDetail {
@@ -83,9 +86,33 @@ model RequestDetail {
   ccEmail         String?
   request         Request   @relation(fields: [requestId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   requestId       Int
-  author          User      @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  authorId        Int
+  author          User?     @relation(fields: [authorId], references: [id])
+  authorId        Int?
+  isSendEMail     Boolean
   createAt        DateTime  @default(now())
   updateAt        DateTime
-  isSendEMail     Boolean
+}
+
+model Topic { 
+  id              Int       @id @default(autoincrement())
+  title           String   
+  content         String
+  image           String?   
+  author          User?     @relation(fields: [authorId], references: [id])
+  authorId        Int?
+  product         Product   @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)  
+  productId       Int  
+  createAt        DateTime  @default(now())
+  updateAt        DateTime   
+}
+
+model TopicSub {
+  id              Int       @id @default(autoincrement())
+  title           String
+  content         String
+  image           String?
+  author          User?     @relation(fields: [authorId], references: [id])
+  authorId        Int?
+  createAt        DateTime  @default(now())
+  updateAt        DateTime  
 }
