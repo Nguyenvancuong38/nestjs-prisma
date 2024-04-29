@@ -46,9 +46,9 @@ export class TopicsService {
     };
   }
 
-  async findByProduct(id: number) {
+  async findByProduct(productId: number) {
     const topics = await this.prisma.topic.findMany({
-      where: {productId: id}
+      where: {productId: productId}
     })
     return {
       status: 200,

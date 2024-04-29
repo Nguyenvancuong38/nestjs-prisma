@@ -9,9 +9,20 @@ import { ProductModule } from './product/product.module';
 import { RequestModule } from './request/request.module';
 import { RequestDetailsModule } from './request-details/request-details.module';
 import { TopicsModule } from './topics/topics.module';
+import { TopicSubModule } from './topic-sub/topic-sub.module';
 
 @Module({
-  imports: [PrismaModule, UsersModule, AuthModule, DepartmentModule, ProductModule, RequestModule, RequestDetailsModule, TopicsModule],
+  imports: [
+    PrismaModule, 
+    UsersModule, 
+    AuthModule, 
+    DepartmentModule, 
+    ProductModule, 
+    RequestModule, 
+    RequestDetailsModule, 
+    TopicsModule, 
+    TopicSubModule
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

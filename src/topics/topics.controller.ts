@@ -38,8 +38,8 @@ export class TopicsController {
     return this.topicsService.remove(+id, currentUser);
   }
 
-  @Get('productId/:id')
-  findByProduct(@Param('id') id: string) {
-    return this.topicsService.findByProduct(+id);
+  @Get('productId/:productId')
+  findByProduct(@Param('productId') productId: string) {
+    return this.topicsService.findByProduct(+productId);
   }
 }
