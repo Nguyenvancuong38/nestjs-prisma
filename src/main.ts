@@ -22,8 +22,10 @@ async function bootstrap() {
   // Setup Swagger module with the application instance and the Swagger document
   SwaggerModule.setup('api', app, document);
 
+  app.enableCors(); // Bật CORS cho ứng dụng NestJS
+
   // Start the application and listen for requests on port 3000
-  await app.listen(3000);
+  await app.listen(3004);
 }
 
 // Call the bootstrap function to start the application

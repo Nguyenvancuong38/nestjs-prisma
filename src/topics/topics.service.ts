@@ -22,7 +22,8 @@ export class TopicsService {
   async findAll() {
     const topics = await this.prisma.topic.findMany({
       include: {
-        author: true
+        author: true,
+        product: true
       }
     })
     return {
