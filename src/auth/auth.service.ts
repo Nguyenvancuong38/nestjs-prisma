@@ -23,7 +23,8 @@ export class AuthService {
             user: {
                 name: user.data.name,
                 code: user.data.code,
-                id: user.data.id
+                id: user.data.id,
+                role: user.data.role
             }
         }
     }
