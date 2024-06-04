@@ -71,3 +71,17 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](LICENSE).
+
+## Config database and migration 
+8. Apply change schema to database
+--> npx prisma migrate dev
+10. Cập nhật lại các phương thức cho prisma
+--> npx prisma generate
+11. Tạo file seed.ts in folder prisma và seed db 
+--> touch prisma/seed.ts
+--> thêm đoạn script vào file package.json:
+     "prisma": {
+          "seed": "ts-node prisma/seed.ts"
+}
+--> npx prisma db seed
+

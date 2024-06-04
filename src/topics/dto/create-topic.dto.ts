@@ -1,4 +1,4 @@
-import { IsDate, IsNotEmpty, IsNumber, IsOptional } from "class-validator";
+import { IsArray, IsDate, IsNotEmpty, IsNumber, IsOptional } from "class-validator";
 
 export class CreateTopicDto {
     @IsNotEmpty()
@@ -18,4 +18,7 @@ export class CreateTopicDto {
 
     @IsDate()
     updateAt: Date
+
+    @IsArray()
+    types: number[]
 }

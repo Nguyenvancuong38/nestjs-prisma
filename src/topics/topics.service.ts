@@ -9,8 +9,20 @@ export class TopicsService {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(createTopicDto: CreateTopicDto) {
+    const {types, ...topicDto} = createTopicDto;
     const topic = await this.prisma.topic.create({
-      data: createTopicDto
+      data: {
+        ...topicDto,
+        types: {
+          create: types.map(item => (
+            {
+              type: {
+                connect: {id: item}
+              }
+            }
+          ))
+        }
+      }
     })
     return {
       status: 201,
@@ -67,9 +79,21 @@ export class TopicsService {
       message: 'Topic not found'
     }
     Permission.check(topicExit.authorId, currentUser)
+    const {types, ...topicDto} = updateTopicDto;
     const topic = await this.prisma.topic.update({
       where: {id},
-      data: updateTopicDto
+      data: {
+        ...topicDto,
+        types: {
+          create: types.map(item => (
+            {
+              type: {
+                connect: {id: item}
+              }
+            }
+          ))
+        }
+      }
     })
     return {
       status: 200,

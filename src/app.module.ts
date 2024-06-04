@@ -10,6 +10,7 @@ import { RequestModule } from './request/request.module';
 import { RequestDetailsModule } from './request-details/request-details.module';
 import { TopicsModule } from './topics/topics.module';
 import { TopicSubModule } from './topic-sub/topic-sub.module';
+import { TypesModule } from './types/types.module';
 
 @Module({
   imports: [
@@ -21,7 +22,7 @@ import { TopicSubModule } from './topic-sub/topic-sub.module';
     RequestModule, 
     RequestDetailsModule, 
     TopicsModule, 
-    TopicSubModule
+    TopicSubModule, TypesModule
   ],
   controllers: [AppController],
   providers: [AppService],

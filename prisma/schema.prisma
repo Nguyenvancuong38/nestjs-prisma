@@ -102,7 +102,8 @@ model Topic {
   authorId        Int?
   product         Product   @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)  
   productId       Int
-  topicSubs       TopicSub[]  
+  topicSubs       TopicSub[]
+  types           TopicWithType[]
   createAt        DateTime  @default(now())
   updateAt        DateTime   
 }
@@ -118,4 +119,19 @@ model TopicSub {
   topicId         Int
   createAt        DateTime  @default(now())
   updateAt        DateTime  
+}
+
+model Type {
+  id              Int               @id @default(autoincrement())
+  name            String            @unique
+  topics          TopicWithType[]
+}
+
+model TopicWithType {
+  topic           Topic     @relation(fields: [topicId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  topicId         Int
+  type            Type      @relation(fields: [typeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  typeId          Int
+
+  @@id([topicId, typeId])
 }
