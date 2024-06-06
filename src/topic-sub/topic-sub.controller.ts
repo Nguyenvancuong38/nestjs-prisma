@@ -12,8 +12,8 @@ export class TopicSubController {
 
   @Post()
   @UseGuards(AuthGuard)
-  create(@Body() createTopicSubDto: CreateTopicSubDto) {
-    return this.topicSubService.create(createTopicSubDto);
+  create(@Body() createTopicSubDto: CreateTopicSubDto, @CurrentUser() currentUser: User) {
+    return this.topicSubService.create(createTopicSubDto, currentUser);
   }
 
   @Get()

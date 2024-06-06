@@ -6,6 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["fullTextSearch", "fullTextIndex"]
 }
 
 datasource db {
@@ -110,7 +111,6 @@ model Topic {
 
 model TopicSub {
   id              Int       @id @default(autoincrement())
-  title           String
   content         String
   image           String?
   author          User?     @relation(fields: [authorId], references: [id])

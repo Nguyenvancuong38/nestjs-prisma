@@ -3,16 +3,18 @@ import { CreateTopicDto } from './dto/create-topic.dto';
 import { UpdateTopicDto } from './dto/update-topic.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { Permission } from 'src/helpers/checkPermission.helper';
+import { User } from '@prisma/client';
 
 @Injectable()
 export class TopicsService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(createTopicDto: CreateTopicDto) {
+  async create(createTopicDto: CreateTopicDto, currentUser: User) {
     const {types, ...topicDto} = createTopicDto;
     const topic = await this.prisma.topic.create({
       data: {
         ...topicDto,
+        authorId: currentUser.id,
         types: {
           create: types.map(item => (
             {
@@ -49,7 +51,12 @@ export class TopicsService {
     const topic = await this.prisma.topic.findUnique({
       where: {id},
       include: {
-        author: true
+        author: true,
+        topicSubs: {
+          include: {
+            author: true
+          }
+        }
       }
     })
     return {
@@ -70,7 +77,7 @@ export class TopicsService {
     }
   }
 
-  async update(id: number, updateTopicDto: UpdateTopicDto, currentUser) {
+  async update(id: number, updateTopicDto: UpdateTopicDto, currentUser: User) {
     const topicExit = await this.prisma.topic.findUnique({
       where: {id}
     })
@@ -84,6 +91,7 @@ export class TopicsService {
       where: {id},
       data: {
         ...topicDto,
+        authorId: currentUser.id,
         types: {
           create: types.map(item => (
             {

@@ -12,8 +12,8 @@ export class TopicsController {
 
   @Post()
   @UseGuards(AuthGuard)
-  create(@Body() createTopicDto: CreateTopicDto) {
-    return this.topicsService.create(createTopicDto);
+  create(@Body() createTopicDto: CreateTopicDto, @CurrentUser() currentUser: User) {
+    return this.topicsService.create(createTopicDto, currentUser);
   }
 
   @Get()

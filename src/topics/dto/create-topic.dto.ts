@@ -10,9 +10,6 @@ export class CreateTopicDto {
     @IsOptional()
     image: string
 
-    @IsOptional()
-    authorId: number
-
     @IsNumber()
     productId: number
 

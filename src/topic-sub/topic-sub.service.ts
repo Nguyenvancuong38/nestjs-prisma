@@ -9,9 +9,12 @@ import { Permission } from 'src/helpers/checkPermission.helper';
 export class TopicSubService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(createTopicSubDto: CreateTopicSubDto) {
+  async create(createTopicSubDto: CreateTopicSubDto, currentUser: User) {
     const topicSub = await this.prisma.topicSub.create({
-      data: createTopicSubDto
+      data: {
+        ...createTopicSubDto,
+        authorId: currentUser.id
+      }
     })
     return {
       status: 201,
@@ -72,7 +75,10 @@ export class TopicSubService {
     Permission.check(topicSubExit.authorId, currentUser);
     const topicSub = await this.prisma.topicSub.update({
       where: {id},
-      data: updateTopicSubDto
+      data: {
+        ...updateTopicSubDto,
+        authorId: currentUser.id
+      }
     })
     return {
       status: 202,
