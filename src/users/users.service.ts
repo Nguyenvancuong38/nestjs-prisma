@@ -138,7 +138,7 @@ export class UsersService {
     })
 
     return {
-      status: 201,
+      status: 202,
       message: "Update user successfully",
       data: user
     };

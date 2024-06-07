@@ -100,8 +100,8 @@ export class TopicSubService {
       where: {id}
     })
     return {
-      status: 202,
-      message: 'Update topic sub successfully',
+      status: 204,
+      message: 'Delete topic sub successfully',
       data: topicSub
     };
   }

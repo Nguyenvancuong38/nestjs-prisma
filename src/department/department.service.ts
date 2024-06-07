@@ -72,7 +72,7 @@ export class DepartmentService {
         data: updateDepartmentDto
       });
       return {
-        status: 201,
+        status: 202,
         message: "Update department successfully",
         data: department
       }

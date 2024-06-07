@@ -108,7 +108,7 @@ export class ProductService {
       })
 
       return {
-        status: 201,
+        status: 202,
         message: "Update product successfully",
         data: product 
       };

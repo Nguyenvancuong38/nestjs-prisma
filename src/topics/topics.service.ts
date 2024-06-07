@@ -52,6 +52,7 @@ export class TopicsService {
       where: {id},
       include: {
         author: true,
+        types: true,
         topicSubs: {
           include: {
             author: true
@@ -87,8 +88,11 @@ export class TopicsService {
     }
     Permission.check(topicExit.authorId, currentUser)
     const {types, ...topicDto} = updateTopicDto;
+    await this.prisma.topicWithType.deleteMany({
+      where: {topicId: id}
+    })
     const topic = await this.prisma.topic.update({
-      where: {id},
+      where: { id },
       data: {
         ...topicDto,
         authorId: currentUser.id,
@@ -100,11 +104,12 @@ export class TopicsService {
               }
             }
           ))
-        }
-      }
-    })
+        },
+      },
+    });
+    
     return {
-      status: 200,
+      status: 202,
       message: 'Update topic successfully',
       data: topic
     };

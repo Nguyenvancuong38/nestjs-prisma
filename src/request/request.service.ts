@@ -63,7 +63,7 @@ export class RequestService {
       data: updateRequestDto
     })
     return {
-      status: 201,
+      status: 202,
       message: 'Update request successfully',
       data: request
     };

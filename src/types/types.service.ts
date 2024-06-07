@@ -83,7 +83,7 @@ export class TypesService {
       }
     })
     return {
-      status: 201,
+      status: 202,
       message: 'Update a new type successfully',
       data: type
     };

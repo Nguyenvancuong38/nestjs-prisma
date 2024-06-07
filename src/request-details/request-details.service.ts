@@ -60,7 +60,7 @@ export class RequestDetailsService {
         data: updateRequestDetailDto
       })
       return {
-        status: 201,
+        status: 202,
         message: 'Update request detail successfully',
         data: requestDetail
       };
