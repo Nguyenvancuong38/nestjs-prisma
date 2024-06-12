@@ -106,10 +106,10 @@ export class UsersService {
   }
 
   async update(id: number, updateUserDto: UpdateUserDto, currentUser) {
-    this.findById(id);
+    const userOld = await this.findById(id);
     Permission.check(id, currentUser);
     const { code, name, email, password, role, departmentId, updateAt, productIds } = updateUserDto;
-    const passwordHash = await bcrypt.hash(password, 10); 
+    const passwordHash = !!password ? await bcrypt.hash(password, 10) : userOld.data.password;
 
     await this.prisma.productWithUsers.deleteMany({
       where: {userId: id}
