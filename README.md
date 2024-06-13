@@ -73,6 +73,8 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 Nest is [MIT licensed](LICENSE).
 
 ## Config database and migration 
+1. Run docker 
+--> docker compose up -d
 8. Apply change schema to database
 --> npx prisma migrate dev
 10. Cập nhật lại các phương thức cho prisma
