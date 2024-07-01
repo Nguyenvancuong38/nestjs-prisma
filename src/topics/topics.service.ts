@@ -47,6 +47,29 @@ export class TopicsService {
     };
   }
 
+  async searchByParam(paramSearch) {
+    const { title, productId } = paramSearch;
+    const data = await this.prisma.topic.findMany({
+      where: {
+        title: {
+          search: title
+        },
+        productId: productId
+      },
+      include: {
+        author: true,
+        product: true,
+        types: true
+      }
+    })
+
+    return {
+      status: 200,
+      message: 'Get topic successful',
+      data: data
+    }
+  }
+
   async findOne(id: number) {
     const topic = await this.prisma.topic.findUnique({
       where: {id},

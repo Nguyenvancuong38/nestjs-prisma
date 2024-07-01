@@ -21,24 +21,29 @@ export class TopicsController {
     return this.topicsService.findAll();
   }
 
-  @Get(':id')
+  @Post('/search')
+  findByParam(@Body() paramSearch) {
+    return this.topicsService.searchByParam(paramSearch);
+  }
+
+  @Get('/:id')
   findOne(@Param('id') id: string) {
     return this.topicsService.findOne(+id);
   }
 
-  @Patch(':id')
+  @Patch('/:id')
   @UseGuards(AuthGuard)
   update(@Param('id') id: string, @Body() updateTopicDto: UpdateTopicDto, @CurrentUser() currentUser: User) {
     return this.topicsService.update(+id, updateTopicDto, currentUser);
   }
 
-  @Delete(':id')
+  @Delete('/:id')
   @UseGuards(AuthGuard)
   remove(@Param('id') id: string, @CurrentUser() currentUser: User) {
     return this.topicsService.remove(+id, currentUser);
   }
 
-  @Get('productId/:productId')
+  @Get('/productId/:productId')
   findByProduct(@Param('productId') productId: string) {
     return this.topicsService.findByProduct(+productId);
   }
