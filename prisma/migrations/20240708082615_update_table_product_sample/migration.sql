@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "ProductSample" ALTER COLUMN "dateStart" DROP NOT NULL,
+ALTER COLUMN "dateEnd" DROP NOT NULL,
+ALTER COLUMN "requestId" DROP NOT NULL;

@@ -11,6 +11,7 @@ import { RequestDetailsModule } from './request-details/request-details.module';
 import { TopicsModule } from './topics/topics.module';
 import { TopicSubModule } from './topic-sub/topic-sub.module';
 import { TypesModule } from './types/types.module';
+import { ProductSampleModule } from './product-sample/product-sample.module';
 
 @Module({
   imports: [
@@ -22,7 +23,7 @@ import { TypesModule } from './types/types.module';
     RequestModule, 
     RequestDetailsModule, 
     TopicsModule, 
-    TopicSubModule, TypesModule
+    TopicSubModule, TypesModule, ProductSampleModule
   ],
   controllers: [AppController],
   providers: [AppService],

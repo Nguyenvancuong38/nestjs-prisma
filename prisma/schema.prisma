@@ -19,22 +19,30 @@ enum Role {
   admin
 }
 
+enum ProductType {
+  standard
+  ng
+  preventive
+}
+
 model User {
-  id             Int                @id @default(autoincrement())
-  name           String
-  email          String             @unique
-  code           String             @unique
-  password       String  
-  role           Role               @default(user)
-  products       ProductWithUsers[]
-  requests       Request[]
-  requestDetails RequestDetail[]
-  department     Department         @relation(fields: [departmentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  departmentId   Int
-  topics         Topic[]
-  toppicSubs     TopicSub[]
-  createAt       DateTime           @default(now())
-  updateAt       DateTime
+  id                   Int                @id @default(autoincrement())
+  name                 String
+  email                String             @unique
+  code                 String             @unique
+  password             String  
+  role                 Role               @default(user)
+  products             ProductWithUsers[]
+  requests             Request[]
+  requestDetails       RequestDetail[]
+  department           Department         @relation(fields: [departmentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  departmentId         Int
+  topics               Topic[]
+  toppicSubs           TopicSub[]
+  productSample        ProductSample[]
+  requestProductSample RequestProductSample[]
+  createAt             DateTime           @default(now())
+  updateAt             DateTime
 }
 
 model Department {
@@ -50,6 +58,7 @@ model Product {
   users           ProductWithUsers[]
   requets         Request[]
   topics          Topic[]
+  productSample   ProductSample[]
   createAt        DateTime            @default(now())
   updateAt        DateTime
 }
@@ -134,4 +143,30 @@ model TopicWithType {
   typeId          Int
 
   @@id([topicId, typeId])
+}
+
+model ProductSample {
+  id             Int                    @id @default(autoincrement())
+  name           String
+  partNo         String?
+  description    String?
+  dateStart      DateTime?   
+  dateEnd        DateTime?
+  type           ProductType            @default(preventive)
+  userId         Int
+  position       User                   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  requestId      Int?
+  request        RequestProductSample?  @relation(fields: [requestId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  modelId        Int
+  model          Product                @relation(fields: [modelId], references: [id], onDelete: Cascade, onUpdate: Cascade)          
+}
+
+model RequestProductSample {
+  id            Int           @id @default(autoincrement())
+  description   String
+  authorId      Int
+  author        User          @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  master        Int
+  productSample ProductSample[]
+  createAt      DateTime
 }
