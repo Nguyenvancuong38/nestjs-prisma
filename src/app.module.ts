@@ -12,6 +12,7 @@ import { TopicsModule } from './topics/topics.module';
 import { TopicSubModule } from './topic-sub/topic-sub.module';
 import { TypesModule } from './types/types.module';
 import { ProductSampleModule } from './product-sample/product-sample.module';
+import { RequestProductSampleModule } from './request-product-sample/request-product-sample.module';
 
 @Module({
   imports: [
@@ -23,7 +24,7 @@ import { ProductSampleModule } from './product-sample/product-sample.module';
     RequestModule, 
     RequestDetailsModule, 
     TopicsModule, 
-    TopicSubModule, TypesModule, ProductSampleModule
+    TopicSubModule, TypesModule, ProductSampleModule, RequestProductSampleModule
   ],
   controllers: [AppController],
   providers: [AppService],

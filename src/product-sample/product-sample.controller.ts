@@ -3,12 +3,14 @@ import { ProductSampleService } from './product-sample.service';
 import { CreateProductSampleDto } from './dto/create-product-sample.dto';
 import { UpdateProductSampleDto } from './dto/update-product-sample.dto';
 import { AuthGuard } from 'src/guards/auth.guard';
+import { RoleGuard } from 'src/guards/role.guard';
 
 @Controller('v1/product-sample')
 export class ProductSampleController {
   constructor(private readonly productSampleService: ProductSampleService) {}
 
   @Post()
+  @UseGuards(new RoleGuard(['admin']))
   @UseGuards(AuthGuard)
   create(@Body() createProductSampleDto: CreateProductSampleDto) {
     return this.productSampleService.create(createProductSampleDto);
@@ -25,11 +27,15 @@ export class ProductSampleController {
   }
 
   @Patch(':id')
+  @UseGuards(new RoleGuard(['admin']))
+  @UseGuards(AuthGuard)
   update(@Param('id') id: string, @Body() updateProductSampleDto: UpdateProductSampleDto) {
     return this.productSampleService.update(+id, updateProductSampleDto);
   }
 
   @Delete(':id')
+  @UseGuards(new RoleGuard(['admin']))
+  @UseGuards(AuthGuard)
   remove(@Param('id') id: string) {
     return this.productSampleService.remove(+id);
   }
