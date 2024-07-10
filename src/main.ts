@@ -14,6 +14,14 @@ async function bootstrap() {
     .setTitle('System_Request_API') // Set the title of the API
     .setDescription('System request change on all product') // Set the description of the API
     .setVersion('0.1') // Set the version of the API
+    .addBearerAuth(
+      {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+      },
+      'access-token',
+    )
     .build(); // Build the document
 
   // Create a Swagger document using the application instance and the document configuration
