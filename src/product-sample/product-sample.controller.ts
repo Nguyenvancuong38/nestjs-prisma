@@ -4,6 +4,8 @@ import { CreateProductSampleDto } from './dto/create-product-sample.dto';
 import { UpdateProductSampleDto } from './dto/update-product-sample.dto';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { RoleGuard } from 'src/guards/role.guard';
+import { CurrentUser } from 'src/users/decorators/currentUser.decorator';
+import { User } from '@prisma/client';
 
 @Controller('v1/product-sample')
 export class ProductSampleController {
@@ -12,8 +14,8 @@ export class ProductSampleController {
   @Post()
   @UseGuards(new RoleGuard(['admin']))
   @UseGuards(AuthGuard)
-  create(@Body() createProductSampleDto: CreateProductSampleDto) {
-    return this.productSampleService.create(createProductSampleDto);
+  create(@Body() createProductSampleDto: CreateProductSampleDto, @CurrentUser() currentUser: User) {
+    return this.productSampleService.create(createProductSampleDto, currentUser);
   }
 
   @Get()
@@ -29,8 +31,8 @@ export class ProductSampleController {
   @Patch(':id')
   @UseGuards(new RoleGuard(['admin']))
   @UseGuards(AuthGuard)
-  update(@Param('id') id: string, @Body() updateProductSampleDto: UpdateProductSampleDto) {
-    return this.productSampleService.update(+id, updateProductSampleDto);
+  update(@Param('id') id: string, @Body() updateProductSampleDto: UpdateProductSampleDto, @CurrentUser() currentUser: User) {
+    return this.productSampleService.update(+id, updateProductSampleDto, currentUser);
   }
 
   @Delete(':id')

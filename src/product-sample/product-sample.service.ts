@@ -7,10 +7,21 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class ProductSampleService {
   constructor(private readonly prisma: PrismaService){}
 
-  async create(createProductSampleDto: CreateProductSampleDto) {
+  async create(createProductSampleDto: CreateProductSampleDto, currentUser) {
     const productSample = await this.prisma.productSample.create({
       data: createProductSampleDto
     })
+
+    // Tạo ProductSampleWithUser sau khi ProductSample đã được tạo
+    await this.prisma.productSampleWithUser.create({
+      data: {
+        productSampleId: productSample.id,
+        user: {
+          connect: { id: currentUser.id },
+        },
+      },
+    });
+
     return {
       status: 201,
       message: 'Create product sample successful',
@@ -38,11 +49,26 @@ export class ProductSampleService {
     };
   }
 
-  async update(id: number, updateProductSampleDto: UpdateProductSampleDto) {
+  async update(id: number, updateProductSampleDto: UpdateProductSampleDto, currentUser) {
     const productSample = await this.prisma.productSample.update({
       where: { id },
       data: updateProductSampleDto
     })
+
+    await this.prisma.productSampleWithUser.delete({
+      where: { productSampleId: id }
+    })
+
+    // Tạo ProductSampleWithUser sau khi ProductSample đã được tạo
+    await this.prisma.productSampleWithUser.create({
+      data: {
+        productSampleId: productSample.id,
+        user: {
+          connect: { id: currentUser.id },
+        },
+      },
+    });
+
     return {
       status: 202,
       message: 'Update product sample successful',
@@ -51,9 +77,12 @@ export class ProductSampleService {
   }
 
   async remove(id: number) {
+
     const productSample = await this.prisma.productSample.delete({
       where: { id },
     })
+
+
     return {
       status: 204,
       message: 'Delete product sample successful',

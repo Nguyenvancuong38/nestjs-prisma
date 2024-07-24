@@ -51,4 +51,10 @@ export class CreateProductSampleDto {
     })
     @IsNumber()
     modelId: number
+
+    @ApiProperty({
+        example: 1
+    })
+    @IsNumber()
+    productSampleWithUserId: number
 }
