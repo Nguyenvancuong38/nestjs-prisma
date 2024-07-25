@@ -6,7 +6,10 @@ import { AuthGuard } from 'src/guards/auth.guard';
 import { RoleGuard } from 'src/guards/role.guard';
 import { CurrentUser } from 'src/users/decorators/currentUser.decorator';
 import { User } from '@prisma/client';
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 
+@ApiTags('Product-sample')
+@ApiBearerAuth('access-token')
 @Controller('v1/product-sample')
 export class ProductSampleController {
   constructor(private readonly productSampleService: ProductSampleService) {}

@@ -4,7 +4,10 @@ import { CreateDepartmentDto } from './dto/create-department.dto';
 import { UpdateDepartmentDto } from './dto/update-department.dto';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { RoleGuard } from 'src/guards/role.guard';
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 
+@ApiTags('Department')
+@ApiBearerAuth('access-token')
 @Controller('v1/department')
 export class DepartmentController {
   constructor(private readonly departmentService: DepartmentService) {}

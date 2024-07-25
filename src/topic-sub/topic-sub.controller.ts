@@ -5,7 +5,10 @@ import { UpdateTopicSubDto } from './dto/update-topic-sub.dto';
 import { CurrentUser } from 'src/users/decorators/currentUser.decorator';
 import { User } from '@prisma/client';
 import { AuthGuard } from 'src/guards/auth.guard';
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 
+@ApiTags('Topic-sub')
+@ApiBearerAuth('access-token')
 @Controller('v1/topic-sub')
 export class TopicSubController {
   constructor(private readonly topicSubService: TopicSubService) {}

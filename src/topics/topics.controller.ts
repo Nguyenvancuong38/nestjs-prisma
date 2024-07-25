@@ -5,7 +5,10 @@ import { UpdateTopicDto } from './dto/update-topic.dto';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { CurrentUser } from 'src/users/decorators/currentUser.decorator';
 import { User } from '@prisma/client';
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 
+@ApiTags('Topic')
+@ApiBearerAuth('access-token')
 @Controller('v1/topics')
 export class TopicsController {
   constructor(private readonly topicsService: TopicsService) {}

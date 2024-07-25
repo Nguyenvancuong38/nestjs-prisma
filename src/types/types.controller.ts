@@ -3,7 +3,10 @@ import { TypesService } from './types.service';
 import { CreateTypeDto } from './dto/create-type.dto';
 import { UpdateTypeDto } from './dto/update-type.dto';
 import { AuthGuard } from 'src/guards/auth.guard';
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 
+@ApiTags('Type')
+@ApiBearerAuth('access-token')
 @Controller('v1/types')
 export class TypesController {
   constructor(private readonly typesService: TypesService) {}

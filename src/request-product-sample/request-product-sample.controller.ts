@@ -5,7 +5,10 @@ import { UpdateRequestProductSampleDto } from './dto/update-request-product-samp
 import { AuthGuard } from 'src/guards/auth.guard';
 import { CurrentUser } from 'src/users/decorators/currentUser.decorator';
 import { User } from '@prisma/client';
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 
+@ApiTags('Request-product-sample')
+@ApiBearerAuth('access-token')
 @Controller('v1/request-product-sample')
 export class RequestProductSampleController {
   constructor(private readonly requestProductSampleService: RequestProductSampleService) {}

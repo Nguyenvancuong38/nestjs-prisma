@@ -6,7 +6,10 @@ import { AuthGuard } from 'src/guards/auth.guard';
 import { CurrentUser } from './decorators/currentUser.decorator';
 import { User } from '@prisma/client';
 import { RoleGuard } from 'src/guards/role.guard';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('User')
+@ApiBearerAuth('access-token')
 @Controller('v1/users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}

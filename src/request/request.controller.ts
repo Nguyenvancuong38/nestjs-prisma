@@ -6,7 +6,10 @@ import { AuthGuard } from 'src/guards/auth.guard';
 import { RoleGuard } from 'src/guards/role.guard';
 import { CurrentUser } from 'src/users/decorators/currentUser.decorator';
 import { User } from '@prisma/client';
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 
+@ApiTags('Request')
+@ApiBearerAuth('access-token')
 @Controller('v1/request')
 export class RequestController {
   constructor(private readonly requestService: RequestService) {}

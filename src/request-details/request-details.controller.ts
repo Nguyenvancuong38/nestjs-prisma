@@ -3,9 +3,10 @@ import { RequestDetailsService } from './request-details.service';
 import { CreateRequestDetailDto } from './dto/create-request-detail.dto';
 import { UpdateRequestDetailDto } from './dto/update-request-detail.dto';
 import { AuthGuard } from 'src/guards/auth.guard';
-import { CurrentUser } from 'src/users/decorators/currentUser.decorator';
-import { User } from '@prisma/client';
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 
+@ApiTags('Request-detail')
+@ApiBearerAuth('access-token')
 @Controller('v1/request-details')
 export class RequestDetailsController {
   constructor(private readonly requestDetailsService: RequestDetailsService) {}
